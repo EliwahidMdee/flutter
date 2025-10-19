@@ -1,0 +1,32 @@
+# This file configures the static analysis results for your project (errors,
+# warnings, and lints).
+#
+# For more information about the core and recommended set of lints, see
+# https://dart.dev/guides/language/analysis-options#default-google-rules-config
+
+include: package:flutter_lints/flutter.yaml
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_literals_to_create_immutables
+    - prefer_const_declarations
+    - avoid_unnecessary_containers
+    - avoid_print
+    - prefer_single_quotes
+    - sort_pub_dependencies
+    - always_declare_return_types
+    - avoid_returning_null_for_void
+    - cancel_subscriptions
+    - close_sinks
+    - unnecessary_const
+    - unnecessary_new
+    - use_key_in_widget_constructors
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore
+    todo: ignore
