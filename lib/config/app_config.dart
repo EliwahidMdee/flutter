@@ -7,16 +7,8 @@ class AppConfig {
   
   // API Base URL
   static String get apiBaseUrl {
-    switch (environment) {
-      case 'development':
-        // Android emulator use 10.0.2.2, iOS simulator use localhost
-        return 'http://10.0.2.2:8000/api';
-      case 'staging':
-        return 'https://staging.yourdomain.com/api';
-      case 'production':
-      default:
-        return 'https://yourdomain.com/api';
-    }
+    // Use the provided backend for all environments by default
+    return 'https://general.swapdez.app/api';
   }
   
   // Timeouts

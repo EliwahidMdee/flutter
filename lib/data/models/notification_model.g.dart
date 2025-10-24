@@ -8,13 +8,13 @@ part of 'notification_model.dart';
 
 NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) =>
     NotificationModel(
-      id: json['id'] as int,
-      userId: json['user_id'] as int,
+      id: (json['id'] as num).toInt(),
+      userId: (json['user_id'] as num).toInt(),
       title: json['title'] as String,
       message: json['message'] as String,
       type: json['type'] as String,
       isRead: json['is_read'] as bool,
-      relatedId: json['related_id'] as int?,
+      relatedId: (json['related_id'] as num?)?.toInt(),
       canRespond: json['can_respond'] as bool?,
       responses: (json['responses'] as List<dynamic>?)
           ?.map((e) => NotificationResponse.fromJson(e as Map<String, dynamic>))
@@ -41,9 +41,9 @@ Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
 NotificationResponse _$NotificationResponseFromJson(
         Map<String, dynamic> json) =>
     NotificationResponse(
-      id: json['id'] as int,
-      notificationId: json['notification_id'] as int,
-      userId: json['user_id'] as int,
+      id: (json['id'] as num).toInt(),
+      notificationId: (json['notification_id'] as num).toInt(),
+      userId: (json['user_id'] as num).toInt(),
       message: json['message'] as String,
       userName: json['user_name'] as String?,
       createdAt: json['created_at'] as String,

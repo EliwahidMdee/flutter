@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/material.dart';
 import '../data/models/user_model.dart';
 import '../presentation/auth/screens/login_screen.dart';
 import '../presentation/auth/screens/splash_screen.dart';
 import '../presentation/admin/dashboard/admin_dashboard_screen.dart';
 import '../presentation/admin/reports/financial_report_screen.dart';
+import '../presentation/admin/reports/report_detail_screen.dart';
 import '../presentation/admin/payments/payment_approval_screen.dart';
 import '../presentation/admin/management/tenant_management_screen.dart';
 import '../presentation/landlord/dashboard/landlord_dashboard_screen.dart';
@@ -20,11 +21,12 @@ import '../presentation/tenant/lease/lease_detail_screen.dart';
 import '../presentation/tenant/notifications/notification_list_screen.dart';
 import '../presentation/common/screens/profile_screen.dart';
 import '../presentation/common/screens/settings_screen.dart';
+import 'package:rental_management_app/presentation/common/providers/report_provider.dart';
 
 class AppRouter {
   static GoRouter router(UserModel? user) {
     return GoRouter(
-      initialLocation: user == null ? '/splash' : _getInitialRoute(user),
+      initialLocation: user == null ? '/login' : _getInitialRoute(user),
       routes: [
         // Splash screen
         GoRoute(
@@ -46,6 +48,45 @@ class AppRouter {
         GoRoute(
           path: '/admin/reports',
           builder: (context, state) => const FinancialReportScreen(),
+        ),
+        // Report detail routes (income statement, balance sheet, trial balance)
+        GoRoute(
+          path: '/admin/reports/income-statement/summary',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.profitLoss, title: 'Income Statement - Summary', detailed: false),
+        ),
+        GoRoute(
+          path: '/admin/reports/income-statement/detailed',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.profitLoss, title: 'Income Statement - Detailed', detailed: true),
+        ),
+        GoRoute(
+          path: '/admin/reports/balance-sheet/summary',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.balanceSheet, title: 'Balance Sheet - Summary'),
+        ),
+        GoRoute(
+          path: '/admin/reports/balance-sheet/detailed',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.balanceSheet, title: 'Balance Sheet - Detailed'),
+        ),
+        GoRoute(
+          path: '/admin/reports/occupancy/summary',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.occupancy, title: 'Occupancy - Summary'),
+        ),
+        GoRoute(
+          path: '/admin/reports/occupancy/detailed',
+          builder: (context, state) => const ReportDetailScreen(tab: ReportTab.occupancy, title: 'Occupancy - Detailed'),
+        ),
+        GoRoute(
+          path: '/admin/reports/trial-balance/summary',
+          builder: (context, state) => Scaffold(
+            appBar: AppBar(title: const Text('Trial Balance - Summary')),
+            body: const Center(child: Text('Trial Balance summary view coming soon')),
+          ),
+        ),
+        GoRoute(
+          path: '/admin/reports/trial-balance/detailed',
+          builder: (context, state) => Scaffold(
+            appBar: AppBar(title: const Text('Trial Balance - Detailed')),
+            body: const Center(child: Text('Trial Balance detailed view coming soon')),
+          ),
         ),
         GoRoute(
           path: '/admin/payments',
@@ -119,9 +160,10 @@ class AppRouter {
       ],
       redirect: (context, state) {
         final isLoggedIn = user != null;
-        final isSplashRoute = state.location == '/splash';
-        final isLoginRoute = state.location == '/login';
-        
+        // Use the Uri path from the GoRouterState (safer across go_router versions)
+        final isSplashRoute = state.uri.path == '/splash';
+        final isLoginRoute = state.uri.path == '/login';
+
         // If not logged in and not on splash or login, redirect to splash
         if (!isLoggedIn && !isSplashRoute && !isLoginRoute) {
           return '/splash';

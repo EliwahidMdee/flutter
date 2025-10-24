@@ -19,4 +19,7 @@ class StorageKeys {
   // App state
   static const String isFirstLaunch = 'is_first_launch';
   static const String lastSyncTime = 'last_sync_time';
+
+  // API subdomain (e.g., 'john' -> john.swapdez.app)
+  static const String apiSubdomain = 'api_subdomain';
 }

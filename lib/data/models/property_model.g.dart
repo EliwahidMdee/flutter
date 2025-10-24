@@ -6,15 +6,16 @@ part of 'property_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PropertyModel _$PropertyModelFromJson(Map<String, dynamic> json) => PropertyModel(
-      id: json['id'] as int,
+PropertyModel _$PropertyModelFromJson(Map<String, dynamic> json) =>
+    PropertyModel(
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       address: json['address'] as String,
       description: json['description'] as String?,
       propertyType: json['property_type'] as String,
-      totalUnits: json['total_units'] as int,
-      occupiedUnits: json['occupied_units'] as int?,
-      landlordId: json['landlord_id'] as int,
+      totalUnits: (json['total_units'] as num).toInt(),
+      occupiedUnits: (json['occupied_units'] as num?)?.toInt(),
+      landlordId: (json['landlord_id'] as num).toInt(),
       image: json['image'] as String?,
       createdAt: json['created_at'] as String?,
       updatedAt: json['updated_at'] as String?,
@@ -44,7 +45,7 @@ Map<String, dynamic> _$PropertyModelToJson(PropertyModel instance) =>
     };
 
 LandlordInfo _$LandlordInfoFromJson(Map<String, dynamic> json) => LandlordInfo(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
@@ -59,11 +60,11 @@ Map<String, dynamic> _$LandlordInfoToJson(LandlordInfo instance) =>
     };
 
 UnitModel _$UnitModelFromJson(Map<String, dynamic> json) => UnitModel(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       unitNumber: json['unit_number'] as String,
-      propertyId: json['property_id'] as int,
-      bedrooms: json['bedrooms'] as int,
-      bathrooms: json['bathrooms'] as int,
+      propertyId: (json['property_id'] as num).toInt(),
+      bedrooms: (json['bedrooms'] as num).toInt(),
+      bathrooms: (json['bathrooms'] as num).toInt(),
       squareFeet: (json['square_feet'] as num?)?.toDouble(),
       monthlyRent: (json['monthly_rent'] as num).toDouble(),
       isOccupied: json['is_occupied'] as bool,

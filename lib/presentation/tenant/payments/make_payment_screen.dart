@@ -7,7 +7,7 @@ import '../../../core/utils/validators.dart';
 import '../../../core/constants/app_constants.dart';
 
 class MakePaymentScreen extends StatefulWidget {
-  const MakePaymentScreen({Key? key}) : super(key: key);
+  const MakePaymentScreen({super.key});
 
   @override
   State<MakePaymentScreen> createState() => _MakePaymentScreenState();
@@ -166,7 +166,7 @@ class _MakePaymentScreenState extends State<MakePaymentScreen> {
 
               // Payment method
               DropdownButtonFormField<String>(
-                value: _paymentMethod,
+                initialValue: _paymentMethod,
                 decoration: const InputDecoration(
                   labelText: 'Payment Method *',
                 ),

@@ -7,7 +7,7 @@ import '../../common/widgets/error_widget.dart';
 import '../../common/widgets/empty_state_widget.dart';
 
 class PropertyListScreen extends StatefulWidget {
-  const PropertyListScreen({Key? key}) : super(key: key);
+  const PropertyListScreen({super.key});
 
   @override
   State<PropertyListScreen> createState() => _PropertyListScreenState();

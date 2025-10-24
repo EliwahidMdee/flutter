@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LeaseDetailScreen extends StatelessWidget {
-  const LeaseDetailScreen({Key? key}) : super(key: key);
+  const LeaseDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

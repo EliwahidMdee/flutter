@@ -4,9 +4,9 @@ class PropertyDetailScreen extends StatelessWidget {
   final int propertyId;
 
   const PropertyDetailScreen({
-    Key? key,
+    super.key,
     required this.propertyId,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../auth/providers/auth_provider.dart';
-import '../../config/app_config.dart';
+import '../../auth/providers/auth_provider.dart';
+import '../../../config/app_config.dart';
+import '../../common/providers/theme_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,16 +29,21 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           const Divider(),
-          ListTile(
-            leading: const Icon(Icons.dark_mode),
-            title: const Text('Dark Mode'),
-            subtitle: const Text('Enable dark theme'),
-            trailing: Switch(
-              value: false,
-              onChanged: (value) {
-                // TODO: Implement theme toggle
-              },
-            ),
+          // Dark mode toggle wired to ThemeProvider
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, _) {
+              return ListTile(
+                leading: const Icon(Icons.dark_mode),
+                title: const Text('Dark Mode'),
+                subtitle: const Text('Enable dark theme'),
+                trailing: Switch(
+                  value: themeProvider.isDarkMode,
+                  onChanged: (value) async {
+                    await themeProvider.setDarkMode(value);
+                  },
+                ),
+              );
+            },
           ),
           
           // Account section
@@ -72,9 +78,9 @@ class SettingsScreen extends StatelessWidget {
           // About section
           const SizedBox(height: 16),
           const _SectionHeader(title: 'About'),
-          ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('Version'),
+          const ListTile(
+            leading: Icon(Icons.info),
+            title: Text('Version'),
             subtitle: Text(AppConfig.appVersion),
           ),
           const Divider(),

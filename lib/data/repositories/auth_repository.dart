@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../config/app_config.dart';
 import '../../core/network/api_client.dart';
 import '../../core/constants/api_constants.dart';
 import '../../core/constants/storage_keys.dart';
@@ -24,16 +23,16 @@ class AuthRepository {
         'device_name': 'mobile',
       },
     );
-    
+
     final data = response.data['data'] ?? response.data;
     final token = data['token'];
     final user = UserModel.fromJson(data['user']);
-    
+
     // Save token and user data
     await _client.setToken(token);
     await _prefs.setString(StorageKeys.authToken, token);
     await _prefs.setString(StorageKeys.userData, jsonEncode(user.toJson()));
-    
+
     return user;
   }
   
@@ -53,16 +52,16 @@ class AuthRepository {
         'device_name': 'mobile',
       },
     );
-    
+
     final data = response.data['data'] ?? response.data;
     final token = data['token'];
     final user = UserModel.fromJson(data['user']);
-    
+
     // Save token and user data
     await _client.setToken(token);
     await _prefs.setString(StorageKeys.authToken, token);
     await _prefs.setString(StorageKeys.userData, jsonEncode(user.toJson()));
-    
+
     return user;
   }
   
@@ -77,21 +76,21 @@ class AuthRepository {
   Future<UserModel?> getCachedUser() async {
     final userJson = _prefs.getString(StorageKeys.userData);
     if (userJson == null) return null;
-    
+
     try {
       return UserModel.fromJson(jsonDecode(userJson));
     } catch (e) {
       return null;
     }
   }
-  
+
   Future<UserModel> getCurrentUser() async {
     final response = await _client.get(ApiEndpoints.getUser);
     final user = UserModel.fromJson(response.data['data'] ?? response.data);
-    
+
     // Update cached user
     await _prefs.setString(StorageKeys.userData, jsonEncode(user.toJson()));
-    
+
     return user;
   }
   
@@ -117,12 +116,12 @@ class AuthRepository {
         if (phone != null) 'phone': phone,
       },
     );
-    
+
     final user = UserModel.fromJson(response.data['data']);
-    
+
     // Update cached user
     await _prefs.setString(StorageKeys.userData, jsonEncode(user.toJson()));
-    
+
     return user;
   }
   

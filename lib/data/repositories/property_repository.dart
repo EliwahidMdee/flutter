@@ -18,7 +18,7 @@ class PropertyRepository {
         'per_page': perPage,
       },
     );
-    
+
     final data = response.data['data'] as List;
     return data.map((json) => PropertyModel.fromJson(json)).toList();
   }
@@ -51,7 +51,7 @@ class PropertyRepository {
         if (description != null) 'description': description,
       },
     );
-    
+
     return PropertyModel.fromJson(response.data['data']);
   }
   
@@ -73,7 +73,7 @@ class PropertyRepository {
         if (description != null) 'description': description,
       },
     );
-    
+
     return PropertyModel.fromJson(response.data['data']);
   }
   

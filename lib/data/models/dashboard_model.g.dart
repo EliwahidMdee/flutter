@@ -8,13 +8,13 @@ part of 'dashboard_model.dart';
 
 DashboardStatsModel _$DashboardStatsModelFromJson(Map<String, dynamic> json) =>
     DashboardStatsModel(
-      totalProperties: json['total_properties'] as int,
-      activeTenants: json['active_tenants'] as int,
-      pendingPayments: json['pending_payments'] as int,
+      totalProperties: (json['total_properties'] as num).toInt(),
+      activeTenants: (json['active_tenants'] as num).toInt(),
+      pendingPayments: (json['pending_payments'] as num).toInt(),
       monthlyRevenue: (json['monthly_revenue'] as num).toDouble(),
       totalRevenue: (json['total_revenue'] as num?)?.toDouble(),
-      occupiedUnits: json['occupied_units'] as int?,
-      totalUnits: json['total_units'] as int?,
+      occupiedUnits: (json['occupied_units'] as num?)?.toInt(),
+      totalUnits: (json['total_units'] as num?)?.toInt(),
       occupancyRate: (json['occupancy_rate'] as num?)?.toDouble(),
       recentActivities: (json['recent_activities'] as List<dynamic>?)
           ?.map((e) => ActivityModel.fromJson(e as Map<String, dynamic>))
@@ -37,7 +37,7 @@ Map<String, dynamic> _$DashboardStatsModelToJson(
 
 ActivityModel _$ActivityModelFromJson(Map<String, dynamic> json) =>
     ActivityModel(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       type: json['type'] as String,
       title: json['title'] as String,
       description: json['description'] as String,

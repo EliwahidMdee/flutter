@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import '../../../data/models/user_model.dart';
 import '../../../data/repositories/auth_repository.dart';
+import '../../../core/network/api_client.dart';
 
 enum AuthStatus {
   initial,
@@ -12,13 +14,23 @@ enum AuthStatus {
 
 class AuthProvider with ChangeNotifier {
   final AuthRepository _repository;
-  
+  late final StreamSubscription<void> _authClearedSub;
+
   AuthStatus _status = AuthStatus.initial;
   UserModel? _user;
   String? _errorMessage;
   
-  AuthProvider(this._repository);
-  
+  AuthProvider(this._repository) {
+    // Listen to global auth-cleared events from ApiClient
+    _authClearedSub = ApiClient().onAuthCleared.listen((_) {
+      // When auth is cleared at the network layer, update provider state
+      _user = null;
+      _status = AuthStatus.unauthenticated;
+      _errorMessage = 'Session expired - please login again.';
+      notifyListeners();
+    });
+  }
+
   // Getters
   AuthStatus get status => _status;
   UserModel? get user => _user;
@@ -30,13 +42,13 @@ class AuthProvider with ChangeNotifier {
   Future<void> checkAuthStatus() async {
     _status = AuthStatus.loading;
     notifyListeners();
-    
+
     try {
       final isLoggedIn = await _repository.isLoggedIn();
-      
+
       if (isLoggedIn) {
         _user = await _repository.getCachedUser();
-        
+
         if (_user != null) {
           // Try to fetch fresh user data
           try {
@@ -56,7 +68,7 @@ class AuthProvider with ChangeNotifier {
       _status = AuthStatus.unauthenticated;
       _errorMessage = e.toString();
     }
-    
+
     notifyListeners();
   }
   
@@ -192,5 +204,11 @@ class AuthProvider with ChangeNotifier {
     }
     
     return errorStr;
+  }
+
+  @override
+  void dispose() {
+    _authClearedSub.cancel();
+    super.dispose();
   }
 }

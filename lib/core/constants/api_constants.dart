@@ -36,7 +36,11 @@ class ApiEndpoints {
   static const occupancyReport = '/reports/occupancy';
   static const balanceSheet = '/reports/balance-sheet';
   static const profitLoss = '/reports/profit-loss';
-  
+  // Income statement endpoints (documented)
+  // Note: the backend exposes financial-reports/income-statement/summary and /detailed
+  static const incomeStatementSummary = '/financial-reports/income-statement/summary';
+  static const incomeStatementDetailed = '/financial-reports/income-statement/detailed';
+
   // Notifications
   static const notifications = '/notifications';
   static String markRead(int id) => '/notifications/$id/read';

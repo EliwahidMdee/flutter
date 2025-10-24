@@ -7,7 +7,7 @@ import '../../common/widgets/empty_state_widget.dart';
 import '../../../core/utils/formatters.dart';
 
 class NotificationListScreen extends StatefulWidget {
-  const NotificationListScreen({Key? key}) : super(key: key);
+  const NotificationListScreen({super.key});
 
   @override
   State<NotificationListScreen> createState() => _NotificationListScreenState();
@@ -263,7 +263,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                   ],
                                 ),
                               );
-                            }).toList(),
+                            }),
                           ],
 
                           // Show respond button if allowed

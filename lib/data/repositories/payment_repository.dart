@@ -4,45 +4,42 @@ import '../../core/constants/api_constants.dart';
 
 class PaymentRepository {
   final ApiClient _client;
-  
+
   PaymentRepository(this._client);
-  
-  Future<List<PaymentModel>> getPayments({
-    String? status,
-    int? tenantId,
-    int? propertyId,
-    int page = 1,
-    int perPage = 15,
-  }) async {
-    final queryParams = <String, dynamic>{
+
+  Future<List<PaymentModel>> getPayments({String? status, int? tenantId, int? propertyId, int page = 1, int perPage = 15}) async {
+    final query = <String, dynamic>{
+      if (status != null) 'status': status,
+      if (tenantId != null) 'tenant_id': tenantId,
+      if (propertyId != null) 'property_id': propertyId,
       'page': page,
       'per_page': perPage,
     };
-    
-    if (status != null) queryParams['status'] = status;
-    if (tenantId != null) queryParams['tenant_id'] = tenantId;
-    if (propertyId != null) queryParams['property_id'] = propertyId;
-    
+
     final response = await _client.get(
       ApiEndpoints.payments,
-      queryParameters: queryParams,
+      queryParameters: query.isNotEmpty ? query : null,
     );
-    
-    final data = response.data['data'] as List;
+
+    final data = response.data['data'] as List? ?? [];
     return data.map((json) => PaymentModel.fromJson(json)).toList();
   }
-  
-  Future<List<PaymentModel>> getPendingPayments() async {
-    final response = await _client.get(ApiEndpoints.pendingPayments);
-    final data = response.data['data'] as List;
+
+  Future<List<PaymentModel>> getPendingPayments({int page = 1, int perPage = 15}) async {
+    final response = await _client.get(ApiEndpoints.pendingPayments, queryParameters: {
+      'page': page,
+      'per_page': perPage,
+    });
+
+    final data = response.data['data'] as List? ?? [];
     return data.map((json) => PaymentModel.fromJson(json)).toList();
   }
-  
+
   Future<PaymentModel> getPaymentById(int id) async {
     final response = await _client.get(ApiEndpoints.paymentDetail(id));
-    return PaymentModel.fromJson(response.data['data']);
+    return PaymentModel.fromJson(response.data['data'] ?? response.data);
   }
-  
+
   Future<PaymentModel> createPayment({
     required int tenantId,
     required int propertyId,
@@ -64,22 +61,19 @@ class PaymentRepository {
         if (referenceNumber != null) 'reference_number': referenceNumber,
       },
     );
-    
+
     return PaymentModel.fromJson(response.data['data']);
   }
-  
+
   Future<PaymentModel> verifyPayment(int paymentId) async {
-    final response = await _client.post(
-      ApiEndpoints.verifyPayment(paymentId),
-    );
-    
+    final response = await _client.post(ApiEndpoints.verifyPayment(paymentId));
     return PaymentModel.fromJson(response.data['data']);
   }
-  
+
   Future<void> deletePayment(int paymentId) async {
     await _client.delete(ApiEndpoints.paymentDetail(paymentId));
   }
-  
+
   Future<PaymentModel> updatePayment({
     required int paymentId,
     double? amount,
@@ -98,7 +92,7 @@ class PaymentRepository {
         if (status != null) 'status': status,
       },
     );
-    
+
     return PaymentModel.fromJson(response.data['data']);
   }
 }

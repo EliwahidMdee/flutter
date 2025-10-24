@@ -7,24 +7,24 @@ enum DashboardStatus { initial, loading, loaded, error }
 
 class DashboardProvider with ChangeNotifier {
   final ApiClient _client;
-  
+
   DashboardStatus _status = DashboardStatus.initial;
   DashboardStatsModel? _stats;
   String? _error;
-  
+
   DashboardProvider(this._client);
-  
+
   // Getters
   DashboardStatus get status => _status;
   DashboardStatsModel? get stats => _stats;
   String? get error => _error;
   bool get isLoading => _status == DashboardStatus.loading;
-  
+
   // Fetch dashboard data
   Future<void> fetchDashboardData() async {
     _status = DashboardStatus.loading;
     notifyListeners();
-    
+
     try {
       final response = await _client.get(ApiEndpoints.dashboard);
       _stats = DashboardStatsModel.fromJson(response.data['data']);
@@ -34,10 +34,10 @@ class DashboardProvider with ChangeNotifier {
       _status = DashboardStatus.error;
       _error = e.toString();
     }
-    
+
     notifyListeners();
   }
-  
+
   // Fetch dashboard stats
   Future<void> fetchDashboardStats() async {
     try {
@@ -50,7 +50,7 @@ class DashboardProvider with ChangeNotifier {
       notifyListeners();
     }
   }
-  
+
   void clearError() {
     _error = null;
     notifyListeners();

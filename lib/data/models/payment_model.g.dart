@@ -7,10 +7,10 @@ part of 'payment_model.dart';
 // **************************************************************************
 
 PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) => PaymentModel(
-      id: json['id'] as int,
-      tenantId: json['tenant_id'] as int,
-      propertyId: json['property_id'] as int?,
-      leaseId: json['lease_id'] as int?,
+      id: (json['id'] as num).toInt(),
+      tenantId: (json['tenant_id'] as num).toInt(),
+      propertyId: (json['property_id'] as num?)?.toInt(),
+      leaseId: (json['lease_id'] as num?)?.toInt(),
       amount: (json['amount'] as num).toDouble(),
       paymentDate: json['payment_date'] as String,
       paymentMethod: json['payment_method'] as String,
@@ -46,7 +46,7 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
     };
 
 TenantInfo _$TenantInfoFromJson(Map<String, dynamic> json) => TenantInfo(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
@@ -61,7 +61,7 @@ Map<String, dynamic> _$TenantInfoToJson(TenantInfo instance) =>
     };
 
 PropertyInfo _$PropertyInfoFromJson(Map<String, dynamic> json) => PropertyInfo(
-      id: json['id'] as int,
+      id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       address: json['address'] as String?,
     );

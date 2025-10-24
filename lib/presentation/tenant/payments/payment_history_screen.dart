@@ -8,7 +8,7 @@ import '../../common/widgets/empty_state_widget.dart';
 import '../../../core/utils/formatters.dart';
 
 class PaymentHistoryScreen extends StatefulWidget {
-  const PaymentHistoryScreen({Key? key}) : super(key: key);
+  const PaymentHistoryScreen({super.key});
 
   @override
   State<PaymentHistoryScreen> createState() => _PaymentHistoryScreenState();
